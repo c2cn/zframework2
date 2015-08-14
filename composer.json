@@ -1,0 +1,28 @@
+{
+  "name":"josecarlosgdacosta/zframework",
+
+  "require":{
+    "php": ">=5.3"
+  },
+
+  "minimum-stability":"alpha",
+
+  "authors":[
+    {
+      "name":"José Carlos Gonçalves",
+      "email":"josecarlosgdacosta@gmail.com"
+    }
+  ],
+
+  "autoload":{
+    "psr-0":{
+      "zframework":"vendor",
+      "app":"/"
+    }
+  },
+
+  "config":{
+    "bin-dir":"bin"
+  }
+
+}
