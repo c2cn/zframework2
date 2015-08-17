@@ -91,6 +91,7 @@ class Bootstrap {
         if (isset($this->_module)) {
             $controllerPath = "app\\controllers\\".$this->_module."\\".$this->_controller;
         } else {
+            $this->_controller = empty($this->_controller) ? "init" : $this->_controller;
             $controllerPath = "app\\controllers\\".$this->_controller;
         }
 

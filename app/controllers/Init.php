@@ -12,6 +12,7 @@ class Init {
 
     public function index() {
 
+        echo "Classe inicial <br/>";
         echo "Controller: INIT - Action: INDEX";
 
     }
