@@ -1,0 +1,19 @@
+<?php
+
+/**
+ * Date: 14/08/2015
+ * Time: 15:00
+ */
+namespace app\views\layout;
+use \zframework\AssetsManager as AssetsManager;
+$assetsManager = new AssetsManager();
+
+?>
+
+<div class="alert alert-info">
+    RELATÓRIO
+</div>
+
+<div class="alert alert-danger">
+    OUTRA COISA
+</div>

@@ -1,17 +1,25 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: jose.costa
- * Date: 12/08/2015
- * Time: 15:22
+ * Date: 14/08/2015
+ * Time: 15:00
  */
 
 namespace app\controllers\modulo;
 
-class Cliente {
+use \zframework\View;
+use \zframework\Layout;
+
+class Cliente extends View {
 
     public function index() {
-        echo "Controller: CLIENTE - Action: INDEX";
+
+        $layout = new Layout();
+        //$layout->setEnableLayout(true);
+
+        $view = new View();
+        $view->render("cliente", $layout);
+
     }
 
     public function novo() {
@@ -19,3 +27,5 @@ class Cliente {
     }
 
 }
+
+?>

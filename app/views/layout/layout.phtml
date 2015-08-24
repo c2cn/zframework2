@@ -1,12 +1,35 @@
+<?php
+
+/**
+ * Date: 14/08/2015
+ * Time: 15:00
+ */
+
+namespace app\views\layout;
+
+use \zframework\AssetsManager;
+$assetsManager = new AssetsManager();
+
+?>
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title><?php echo $this->_layout->getTitle(); ?></title>
-    </head>
+<head>
+    <meta charset="utf-8">
+    <title><?php echo $this->_layout->getTitle(); ?></title>
+    <?php echo $assetsManager->loadCssFile("libs/bootstrap-3.3.5/css/bootstrap.min.css"); ?>
+</head>
 
-    <body>
-        <?php $this->getContent(); ?>
-    </body>
+<body>
+
+    <?php
+
+        $this->getContent();
+
+        echo $assetsManager->loadJsFile("js/jquery-2.1.4.min.js");
+        echo $assetsManager->loadJsFile("libs/bootstrap-3.3.5/js/bootstrap.min.js");
+
+    ?>
+
+</body>
 
 </html>

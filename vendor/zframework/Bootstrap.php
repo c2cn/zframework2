@@ -1,31 +1,58 @@
 <?php
 
+/**
+ * Date: 14/08/2015
+ * Time: 15:00
+ */
+
 namespace zframework;
 
-class Bootstrap {
-
+/**
+ * Classe responsável por inicializar o funcionamento do framework
+ * @package zframework
+ * @author José Carlos Gonçalves da Costa <josecarlosgdacosta@gmail.com>
+ * @copyright Copyright (c) 2013-2014 José Carlos Gonçalves da Costa
+ * @version v 1.0.0
+ */
+class Bootstrap
+{
+    /** @var array Array que contém os objetos da URL requisitada. */
     private $_arrUrlObjects;
+
+    /** @var string Contém o nome do módulo. */
     private $_module;
+
+    /** @var string Contém o nome do controller. */
     private $_controller;
+
+    /** @var string Contém o nome da action. */
     private $_action;
 
-    public function __construct() {
-
+    /**
+     * Construtor da classe.
+     */
+    public function __construct()
+    {
         $this->prepareUrl();
         $this->setModule();
         $this->setController();
         $this->setAction();
-
     }
 
-    protected function getUrl() {
-
+    /**
+     * Método que retorna a URL requisitada pelo usuário.
+     * @return mixed
+     */
+    protected function getUrl()
+    {
         return parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-
     }
 
-    protected function prepareUrl() {
-
+    /**
+     * Método responsável por obter da URL o módulo, controller, action e parâmetros.
+     */
+    protected function prepareUrl()
+    {
         $separate = explode("/", $this->getUrl());
 
         if (end($separate) == null) {
@@ -33,29 +60,35 @@ class Bootstrap {
         }
 
         $this->_arrUrlObjects = array_slice($separate, 2);
-
     }
 
-    protected function getAppModules() {
+    /**
+     * Método que identifica os módulos da aplicação.
+     * @return array Array que contém os módulos da aplicação.
+     */
+    protected function getAppModules()
+    {
 
-        $controllersDir = "../app".DIRECTORY_SEPARATOR."controllers".DIRECTORY_SEPARATOR."*";
+        $controllersDir = "../app" . DIRECTORY_SEPARATOR . "controllers" . DIRECTORY_SEPARATOR . "*";
         $arrModulePath = glob($controllersDir, GLOB_ONLYDIR);
         $modules = array();
 
         if (!empty($arrModulePath)) {
-
             foreach ($arrModulePath as $modulePath) {
                 $tmp = explode(DIRECTORY_SEPARATOR, $modulePath);
                 array_push($modules, end($tmp));
             }
-
         }
 
         return $modules;
 
     }
 
-    protected function setModule() {
+    /**
+     * Método responsável por armazenar o módulo requisitado no atributo da classe.
+     */
+    protected function setModule()
+    {
 
         $arrAppModules = $this->getAppModules();
         $urlModule = !empty($this->_arrUrlObjects) ? current($this->_arrUrlObjects) : null;
@@ -67,51 +100,70 @@ class Bootstrap {
 
     }
 
-    protected function setController() {
-
+    /**
+     * Método responsável por armazenar o controller requisitado no atributo da classe.
+     */
+    protected function setController()
+    {
         if ($this->_module === null) {
             reset($this->_arrUrlObjects);
             $this->_controller = ucfirst(current($this->_arrUrlObjects));
         } else {
-            $this->_controller = ucfirst($this->_arrUrlObjects[1]);
-        }
 
+            if (isset($this->_arrUrlObjects[1])){
+                $this->_controller = ucfirst($this->_arrUrlObjects[1]);
+            } else {
+                $forge = new Forge();
+                $forge->forge404();
+            }
+
+        }
     }
 
-    protected function setAction() {
-
+    /**
+     * Método responsável por armazenar a action requisitado no atributo da classe.
+     */
+    protected function setAction()
+    {
         $actionKey = $this->_module === null ? 1 : 2;
         $action = !isset($this->_arrUrlObjects[$actionKey]) ? "index" : $this->_arrUrlObjects[$actionKey];
         $this->_action = $action;
-
     }
 
-    public function run() {
-
+    /**
+     * Método responsável por criar a rota de acordo com a URL requisitada pelo usuário.
+     * @todo Adicionar chamada ao método que trata o erro 404.
+     * @throws \Exception
+     */
+    public function run()
+    {
         if (isset($this->_module)) {
-            $controllerPath = "app\\controllers\\".$this->_module."\\".$this->_controller;
+            $controllerPath = "app\\controllers\\" . $this->_module . "\\" . $this->_controller;
         } else {
-            $this->_controller = empty($this->_controller) ? "init" : $this->_controller;
-            $controllerPath = "app\\controllers\\".$this->_controller;
+            $this->_controller = empty($this->_controller) ? "Init" : $this->_controller;
+            $controllerPath = "app\\controllers\\" . $this->_controller;
         }
 
         if (!class_exists($controllerPath)) {
 
-            throw new \Exception("NAO EXISTE ESTA CLASSE");
+            $forge = new Forge();
+            $forge->forge404();
 
         } else {
-
-            $action = $this->_action;
             $controller = new $controllerPath();
 
-            if (!method_exists($controller, $action)) {
-                throw new \Exception("ACTION INEXISTENTE");
+            if (!method_exists($controller, $this->_action)) {
+                $forge = new Forge();
+                $forge->forge404();
+            } else {
+                $action = $this->_action;
+                $controller->$action();
             }
-
-            $controller->$action();
 
         }
 
     }
 
 }
+
+?>

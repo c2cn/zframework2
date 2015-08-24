@@ -1,21 +1,45 @@
 <?php
 
+/**
+ * Date: 14/08/2015
+ * Time: 15:00
+ */
+
 namespace zframework;
 
-class View {
-
+/**
+ * Classe responsável pelas operações com as views da aplicação.
+ * @package zframework
+ * @author José Carlos Gonçalves da Costa <josecarlosgdacosta@gmail.com>
+ * @copyright Copyright (c) 2013-2014 José Carlos Gonçalves da Costa
+ * @version v 1.0.0
+ */
+class View
+{
+    /** @var \stdClass Armazena o objeto da view. */
     protected $_view;
+
+    /** @var string Armazena o título da view. */
     protected $_viewFileName;
+
+    /** @var \zframework\Layout Armazena o objeto do layout. */
     protected $_layout;
 
-    public function __construct() {
-
+    /**
+     * Construtor padrão da classe.
+     */
+    public function __construct()
+    {
         $this->_view = new \stdClass();
-
     }
 
-    protected function render($viewName, \zframework\Layout $layout) {
-
+    /**
+     * Método responsável por renderizar a view.
+     * @param string $viewName Título da view.
+     * @param Layout $layout Objeto com as opções de layout.
+     */
+    protected function render($viewName, Layout $layout)
+    {
         $this->_viewFileName = $viewName;
         $layoutFilePath = "../app/views/layout/layout.phtml";
 
@@ -26,17 +50,20 @@ class View {
         } else {
             $this->getContent();
         }
-
     }
 
-    protected function getContent() {
-
+    /**
+     * Método responsável por obter o conteúdo da view.
+     */
+    protected function getContent()
+    {
         $fileNamePath = "../app/views/".$this->_viewFileName.".phtml";
 
         if (file_exists($fileNamePath)) {
-            require_once("../app/views/".$this->_viewFileName.".phtml");
+            require_once($fileNamePath);
         }
-
     }
 
 }
+
+?>

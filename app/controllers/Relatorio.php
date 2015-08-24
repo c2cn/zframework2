@@ -8,16 +8,14 @@
 
 namespace app\controllers;
 
-use zframework\View as View;
+use zframework\View;
+use zframework\Layout;
 
 class Relatorio extends View {
 
     public function index() {
 
-        $x = "Tela com os filtros do relatório.";
-        $this->_view->nome = $x;
-
-        $layoutObject = new \zframework\Layout();
+        $layoutObject = new Layout();
         $layoutObject->setEnableLayout(true);
         $layoutObject->setTitle("Relatório");
 
@@ -30,3 +28,5 @@ class Relatorio extends View {
     }
 
 }
+
+?>
