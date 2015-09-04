@@ -14,8 +14,10 @@ namespace zframework;
  * @copyright Copyright (c) 2013-2014 José Carlos Gonçalves da Costa
  * @version v 1.0.0
  */
-class Forge extends View
+class Forge
 {
+    use \zframework\traits\ViewTrait;
+
     /**
      * Método que redireciona para uma página personalizada de erro 404.
      */
@@ -24,8 +26,7 @@ class Forge extends View
         $layout = new Layout();
         $layout->setTitle('404 - Página não encontrada');
 
-        $view = new View();
-        $view->render("errors/404", $layout);
+        $this->render("errors/404", $layout);
     }
 
 }

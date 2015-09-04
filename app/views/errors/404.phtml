@@ -5,8 +5,9 @@
  * Time: 13:36
  */
 
-use \zframework\AssetsManager;
-$assetsManager = new AssetsManager();
+use \zframework\AssetsBundle;
+use \zframework\App;
+
 ?>
 
 <style rel="stylesheet">
@@ -49,7 +50,7 @@ $assetsManager = new AssetsManager();
         "height"=>120,
         "alt"=>"robot"
     );
-    echo $assetsManager->loadImage("img/coruja.png", $arrOptions);
+    echo AssetsBundle::loadImage("img/coruja.png", $arrOptions);
     ?>
 </div>
 
@@ -67,7 +68,7 @@ $assetsManager = new AssetsManager();
         <div class="col-md-7" style="text-align: justify">
             <h3>Desculpe!</h3>
             <h5>A página que você procura não existe em nosso servidor.</h5>
-                <p>Clique <a href="#">aqui</a> para ir à página inicial.</p>
+                <p>Clique <a href="<?php echo App::getBaseUrl(); ?>">aqui</a> para ir à página inicial.</p>
         </div>
 
 

@@ -7,8 +7,7 @@
 
 namespace app\views\layout;
 
-use \zframework\AssetsManager;
-$assetsManager = new AssetsManager();
+use \zframework\AssetsBundle;
 
 ?>
 <!DOCTYPE html>
@@ -16,7 +15,7 @@ $assetsManager = new AssetsManager();
 <head>
     <meta charset="utf-8">
     <title><?php echo $this->_layout->getTitle(); ?></title>
-    <?php echo $assetsManager->loadCssFile("libs/bootstrap-3.3.5/css/bootstrap.min.css"); ?>
+    <?php echo AssetsBundle::loadCssFile("libs/bootstrap-3.3.5/css/bootstrap.min.css"); ?>
 </head>
 
 <body>
@@ -25,8 +24,8 @@ $assetsManager = new AssetsManager();
 
         $this->getContent();
 
-        echo $assetsManager->loadJsFile("js/jquery-2.1.4.min.js");
-        echo $assetsManager->loadJsFile("libs/bootstrap-3.3.5/js/bootstrap.min.js");
+        echo AssetsBundle::loadJsFile("js/jquery-2.1.4.min.js");
+        echo AssetsBundle::loadJsFile("libs/bootstrap-3.3.5/js/bootstrap.min.js");
 
     ?>
 

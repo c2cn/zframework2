@@ -2,7 +2,8 @@
   "name":"josecarlosgdacosta/zframework",
 
   "require":{
-    "php": ">=5.3"
+    "php": ">=5.3",
+    "doctrine/orm": "2.5.0"
   },
 
   "minimum-stability":"alpha",

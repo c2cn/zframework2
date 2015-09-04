@@ -1,0 +1,24 @@
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" action="<?php echo $this->_app->getBaseUrl()."init/tratarForm"?>">
+            <div class="form-group">
+                <label for="email">Email address</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+            </div>
+            <div class="form-group">
+                <label for="senha">Password</label>
+                <input type="password" class="form-control" id="senha" name="senha" placeholder="Password">
+            </div>
+            <div class="form-group">
+                <label for="anexo">File input</label>
+                <input type="file" id="anexo">
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" name="news"> Receber e-mails dos nossos parceiros?
+                </label>
+            </div>
+            <button type="submit" class="btn btn-success">Let's go!</button>
+        </form>
+    </div>
+</div>

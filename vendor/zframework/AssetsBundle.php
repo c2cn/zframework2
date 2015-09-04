@@ -14,34 +14,19 @@ namespace zframework;
  * @copyright Copyright (c) 2013-2014 José Carlos Gonçalves da Costa
  * @version v 1.0.0
  */
-class AssetsManager
+class AssetsBundle
 {
-    /** @var string Armazena a pasta dos assets. */
-    private $_assetsFolder = "../public/assets/";
-
-    /**
-     * Método responsável por retornar o caminho absoluto para a pasta dos assets.
-     * @return string Caminho dos assets.
-     */
-    private function getBasePath()
-    {
-        $protocol = isset($_SERVER["https"]) ? 'https://' : 'http://';
-        $projectNameDir = current(explode("/", ltrim($_SERVER["PHP_SELF"], "/")));
-        return $protocol . $_SERVER['SERVER_NAME'] . "/" . $projectNameDir . '/public/assets/';
-    }
+    /** @const AssetsFolder Armazena a pasta dos assets. */
+    const AssetsFolder = "../public/assets/";
 
     /**
      * Método que verifica se determinado asset existe.
      * @param string $file Endereço do arquivo dentro da pasta assets.
      * @return bool
      */
-    private function assetExists($file)
+    private static function assetExists($file)
     {
-        if (file_exists($this->_assetsFolder.$file)) {
-            return true;
-        }
-
-        return false;
+        return file_exists(self::AssetsFolder.$file);
     }
 
     /**
@@ -49,11 +34,12 @@ class AssetsManager
      * @param string $file Caminho do arquivo .css dentro da pasta assets.
      * @return string Tag html para inclusão de arquivos .css.
      */
-    public function loadCssFile($file)
+    public static function loadCssFile($file)
     {
-        $cssFile = $this->getBasePath().$file;
 
-        if ($this->assetExists($file)) {
+        $cssFile = App::getAssetsUrl().$file;
+
+        if (self::assetExists($file)) {
             return "<link rel='stylesheet' href='{$cssFile}' />";
         }
 
@@ -65,11 +51,11 @@ class AssetsManager
      * @param string $file Caminho do arquivo .js dentro da pasta assets.
      * @return string Tag html para inclusão de arquivos .js.
      */
-    public function loadJsFile($file)
+    public static function loadJsFile($file)
     {
-        $jsFile = $this->getBasePath().$file;
+        $jsFile = App::getAssetsUrl().$file;
 
-        if ($this->assetExists($file)) {
+        if (self::assetExists($file)) {
             return "<script src='{$jsFile}'></script>";
         }
 
@@ -82,11 +68,11 @@ class AssetsManager
      * @param array $options Array com opções para a tag html.
      * @return string Tag html para inclusão de imagens.
      */
-    public function loadImage($file, array $options)
+    public static function loadImage($file, array $options)
     {
-        if ($this->assetExists($file)) {
+        if (self::assetExists($file)) {
 
-            $image = $this->getBasePath().$file;
+            $image = App::getAssetsUrl().$file;
             $id = isset($options["id"]) ? "id='".$options["id"]."'" : null ;
             $class = isset($options["class"]) ? "class='".$options["class"]."'" : null ;
             $alt = isset($options["alt"]) ? "alt='".$options["alt"]."'" : null ;

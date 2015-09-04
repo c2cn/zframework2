@@ -8,10 +8,11 @@
 
 namespace app\controllers;
 
-use zframework\View;
 use zframework\Layout;
 
-class Relatorio extends View {
+class Relatorio {
+
+    use \zframework\traits\ViewTrait;
 
     public function index() {
 

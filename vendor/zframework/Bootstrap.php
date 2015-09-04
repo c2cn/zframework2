@@ -28,6 +28,8 @@ class Bootstrap
     /** @var string Contém o nome da action. */
     private $_action;
 
+    static private $_params;
+
     /**
      * Construtor da classe.
      */
@@ -37,6 +39,7 @@ class Bootstrap
         $this->setModule();
         $this->setController();
         $this->setAction();
+        $this->setParameters();
     }
 
     /**
@@ -130,9 +133,36 @@ class Bootstrap
         $this->_action = $action;
     }
 
+    protected function setParameters()
+    {
+        $urlParams = !empty($this->_module) ? array_slice($this->_arrUrlObjects, 3) : array_slice($this->_arrUrlObjects, 2);
+        if (count($urlParams) % 2 !== 0) {
+            array_pop($urlParams);
+        }
+
+        $params = $values = array();
+
+        for ($i=0; $i<count($urlParams); $i++) {
+            if ($i % 2 === 0) {
+                array_push($params, $urlParams[$i]);
+            } else {
+                array_push($values, $urlParams[$i]);
+            }
+        }
+
+        if ( (count($params) === count($values)) && (!empty($params) && !empty($values))) {
+            self::$_params = array_combine($params, $values);
+        }
+
+    }
+
+    public static function getParameters()
+    {
+        return self::$_params;
+    }
+
     /**
      * Método responsável por criar a rota de acordo com a URL requisitada pelo usuário.
-     * @todo Adicionar chamada ao método que trata o erro 404.
      * @throws \Exception
      */
     public function run()
@@ -156,6 +186,7 @@ class Bootstrap
                 $forge = new Forge();
                 $forge->forge404();
             } else {
+
                 $action = $this->_action;
                 $controller->$action();
             }
@@ -164,6 +195,10 @@ class Bootstrap
 
     }
 
+    public function ormstart()
+    {
+        new Connection();
+    }
 }
 
 ?>
